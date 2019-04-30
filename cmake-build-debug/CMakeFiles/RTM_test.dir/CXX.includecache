@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/sepy/dev/RTM_test/main.cpp
+cstdlib
+-
+atomic
+-
+thread
+-
+cstdio
+-
+immintrin.h
+-
+

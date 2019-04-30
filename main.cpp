@@ -13,8 +13,12 @@ public:
 	void push(int d)
 	{
 		Node *pv = new Node;
-		pv->d = 0;//d;
+		pv->d = 0;
 		unsigned status = _xbegin ();
+		while (status != _XBEGIN_STARTED)
+		{
+			status = _xbegin ();
+		}
 		if (status == _XBEGIN_STARTED)
 		{
 			pv->d = d;
@@ -22,11 +26,7 @@ public:
 			head = pv;
 			_xend ();
 		}
-		else
-		{
-			printf ("PROBLEM WITH push TRANSACTION!!! \nStatus is %d \n", status);
-			
-		}
+		
 	}
 	int pop()
 	{
@@ -38,8 +38,11 @@ public:
 		
 		int temp = -1;
 		Node *pv = NULL;
-		//pop_retry:
 		unsigned status = _xbegin ();
+		while (status != _XBEGIN_STARTED)
+		{
+			status = _xbegin ();
+		}
 		if (status == _XBEGIN_STARTED)
 		{
 			temp = head->d;
@@ -47,15 +50,15 @@ public:
 			head = head->p;
 			_xend();
 		}
-		else
-		{
-			//goto pop_retry;
-			printf ("PROBLEM WITH pop TRANSACTION!!!\n Status is %d\n", status);
-		}
+		
 		if (pv != NULL)	delete pv;
 		return temp;
 	}
-	//bool isEmpty();
+	bool isEmpty()
+	{
+		return (this->head == NULL);
+		
+	}
 	void display();
 
 private:
@@ -92,7 +95,7 @@ int main ()
 	{
 		printf ("%d\n", testStack.pop());
 	}
-
+	
 /*	for (int i = 0; i < 100; i++)
 {
 	testStack.push(i);
